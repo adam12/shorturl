@@ -1,6 +1,3 @@
-#!/opt/ruby/bin/ruby
-
-ENV["HOME"] ||= `echo ~`.strip
 ENV["RUBYGEMS_GEMDEPS"] ||= "-"
 
 require "pstore"
@@ -10,7 +7,7 @@ require "rack"
 
 store = PStore.new("db")
 
-app = Proc.new do |env|
+App = Proc.new do |env|
   req = Rack::Request.new(env)
 
   if req.get?
@@ -20,7 +17,7 @@ app = Proc.new do |env|
     if url
       [301, {"Location" => url}, []]
     else
-      [404, {}, ["Not found"]]
+      [404, {}, ["Short URL '#{short_code}' Not found"]]
     end
   else
     short_code = SecureRandom.urlsafe_base64[0..2]
@@ -32,4 +29,3 @@ app = Proc.new do |env|
   end
 end
 
-Rack::Handler::CGI.run(Rack::PathInfoRewriter.new(app))
