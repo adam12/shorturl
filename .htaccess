@@ -1,0 +1,6 @@
+Options +FollowSymLinks +ExecCGI
+ErrorDocument 500 "Application failed to start properly"
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ app.cgi/$1 [QSA,L]
