@@ -20,7 +20,7 @@ App = Proc.new do |env|
       [404, {}, ["Short URL '#{short_code}' Not found"]]
     end
   else
-    short_code = SecureRandom.urlsafe_base64[0..2]
+    short_code = SecureRandom.urlsafe_base64[0...3]
     url = req.params["url"]
 
     store.transaction { store[short_code] = url }
